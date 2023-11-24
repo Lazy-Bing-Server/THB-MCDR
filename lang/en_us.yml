@@ -1,0 +1,16 @@
+my_plugin:
+  help:
+    mcdr: Hello world from my plugin!
+    detailed: |
+      §7-----§r MCDR {name} v{ver} §7-----§r
+      This should be the best template you've ever used
+      §7{prefix}§r Show this help message
+      §7{prefix} reload§r Reload this plugin
+
+  msg:
+    reloaded: Plugin reloaded
+
+  config:
+    save_with_default_fmt: Validation during config file saving failed, saved without original format
+    format_failure: There may be mistakes in original config file format, please contact plugin maintainer
+    retry_saving: Attempting saving config with original file format due to validation failure while attempting saving config and keep local config file format

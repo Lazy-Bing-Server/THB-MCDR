@@ -1,0 +1,12 @@
+# Command Prefix for plugin commands
+# 插件指令的前缀
+command_prefix: "!!template"
+
+# Permission level requirements for each command
+# 各指令的权限需求
+permission_requirements:
+  reload: 3
+
+# Options below were missing and set by MCDR with the default value
+# Remember to check and update them as soon as possible
+# 以下选项为 MCDR 补全的缺失项，请注意尽快检查并更新这些配置项
