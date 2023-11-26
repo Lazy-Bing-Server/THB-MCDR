@@ -1,14 +1,16 @@
 {
-    "id": "my_plugin",
-    "version": "1.0.0",
-    "name": "My Plugin",
-    "description": "This description is a description to your plugin",
+    "id": "lazybing_thb",
+    "version": "0.1.0-SNAPSHOT",
+    "name": "LazyBing THB",
+    "description": "TPA, Home & Back for MCDReforged",
     "author": [
-        "You"
+        "Ra1ny_Yuki",
+        "xinbing"
     ],
-    "link": "https://github.com/MCDReforged/MCDReforged-PluginTemplate",
+    "link": "https://github.com/Lazy-Bing-Server/THB-MCDR",
     "dependencies": {
-        "mcdreforged": ">=2.6.0"
+        "mcdreforged": ">=2.6.0",
+        "minecraft_data_api": "*"
     },
 
     "resources": [

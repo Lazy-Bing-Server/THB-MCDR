@@ -1,15 +1,50 @@
 import os
 import shutil
-from typing import Union, List, Optional
+import time
+from typing import Union, List, Optional, Dict
 
 from mcdreforged.api.utils import Serializable
 from ruamel import yaml
 
-from my_plugin.utils import psi, logger, rtr
+from lazybing_thb.utils import psi, logger, rtr
+
+
+PrefixType = Union[str, List[str]]
 
 
 class PermissionRequirements(Serializable):
     reload: int = 3
+
+    tpa: int = 0
+    home: int = 0
+    back: int = 0
+
+
+class CommandPrefix(Serializable):
+    home: PrefixType = "!!home"
+    tpa: PrefixType = "!!tpa"
+    tpc: PrefixType = "!!tpc"
+    back: PrefixType = "!!back"
+
+    @property
+    def home_(self) -> List[str]:
+        return [self.home] if isinstance(self.home, str) else self.home
+
+    @property
+    def tpa_(self) -> List[str]:
+        return [self.tpa] if isinstance(self.tpa, str) else self.tpa
+
+    @property
+    def tpc_(self) -> List[str]:
+        return [self.tpc] if isinstance(self.tpc, str) else self.tpc
+
+    @property
+    def back_(self) -> List[str]:
+        return [self.back] if isinstance(self.back, str) else self.back
+
+    @property
+    def help_message_prefix(self):
+        return self.home_[0]
 
 
 class Configuration(Serializable):
@@ -18,16 +53,26 @@ class Configuration(Serializable):
     __CONFIG_TEMP = 'temp_config.yml'
     __PRINT_TO_CONSOLE = True
 
-    command_prefix: Union[List[str], str] = '!!template'
+    command_prefix: CommandPrefix = CommandPrefix.get_default()
     permission_requirements: PermissionRequirements = PermissionRequirements.get_default()
 
+    teleport_delay: Union[int, float] = 5
+    request_expire_time: Union[int, float] = 60.0
+    max_home_count: int = 10
+    undo_history_expire_time = 24  # hrs
+
+    minecraft_data_api_timeout: int
     debug: bool
     verbosity: bool
 
     @classmethod
     def get_template(cls) -> yaml.CommentedMap:
-        with psi.open_bundled_file(cls.__TEMPLATE_PATH) as f:
-            return yaml.YAML().load(f)
+        try:
+            with psi.open_bundled_file(cls.__TEMPLATE_PATH) as f:
+                return yaml.YAML().load(f)
+        except Exception as e:
+            logger.warning("Template not found, is plugin modified?", exc_info=e)
+            return yaml.CommentedMap()
 
     @staticmethod
     def get_data_folder():
@@ -50,7 +95,13 @@ class Configuration(Serializable):
 
     @property
     def prefix(self) -> List[str]:
-        return list(set(self.command_prefix)) if isinstance(self.command_prefix, list) else [self.command_prefix]
+        prefixes = []
+        for values in self.command_prefix.serialize().values():  # type: PrefixType
+            if isinstance(values, str):
+                prefixes.append(values)
+            else:
+                prefixes += values
+        return prefixes
 
     @property
     def primary_prefix(self) -> str:
@@ -64,8 +115,15 @@ class Configuration(Serializable):
     def is_verbose(self):
         return self.serialize().get("verbosity", False)
 
-    def get_prem(self, cmd: str) -> int:
-        return self.permission_requirements.serialize().get(cmd, 1)
+    def is_reached_max_home_amount(self, count: int):
+        return count >= self.max_home_count
+
+    def is_history_expired(self, timestamp: float):
+        return timestamp + (self.undo_history_expire_time * 60 * 60) <= time.time()
+
+    @property
+    def mda_timeout(self):
+        return self.serialize().get('minecraft_data_api_timeout', 3)
 
     @classmethod
     def load(cls) -> 'Configuration':

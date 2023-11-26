@@ -136,3 +136,5 @@ dmypy.json
 
 # KDE Dolphin
 .directory
+
+/minecraft_data_api

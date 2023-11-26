@@ -1,14 +1,54 @@
-my_plugin:
+lazybing_thb:
   help:
-    mcdr: Hello world from my plugin!
+    mcdr: Show TPA & Home & Back Plugin help message
     detailed: |
-      §7-----§r MCDR {name} v{ver} §7-----§r
-      This should be the best template you've ever used
-      §7{prefix}§r Show this help message
-      §7{prefix} reload§r Reload this plugin
+      §7-----§r {name} v{ver} §7-----§r
+      TPA & Home & Back Plugin for MCDReforged
+      §7{home_prefix}§r Show this help message
+      §7{home_prefix} reload§r Reload this plugin
+      §7{home_prefix} list§r List all your home site
+      §7{home_prefix} §e<name>§r Teleport to a home site
+      §7{home_prefix} add §e<name>§r Add a home site
+      §7{home_prefix} rm §e<name>§r Remove a home site
+      §7{tpa_prefix}§r Accept a teleport request
+      §7{tpa_prefix} §6<player>§r Request teleport to §6<player>§r
+      §7{tpc_prefix}§r Decline a teleport request
+      §7{back_prefix}§r Undo a recent teleport action
 
   msg:
     reloaded: Plugin reloaded
+
+  teleport:
+    after_teleport:
+      text: Teleport finished. Use {undo_command} to undo teleport
+      hover: Click here to undo teleport
+
+  tpa:
+    request_expired_target: Teleport request expired from §e{}§r
+    request_expired_requester:
+      text: Teleport request expired to §e{}§r, click here to request once more
+      hover: Click here to request teleport to §e{}§r once more
+    request_not_found: No available teleport request found
+    request_already_exists: A request for {} is available now, please request again soon
+    request_create: Request created, please wait {} to respond
+    request_declined: Declined teleport request from {}
+
+  home:
+    list_home_title: "You have §3{count}§l home sites§r (max §6§l{max_}§r):"
+    list_home_site:
+      hover: Click here to teleport to home site §b{}§r
+    reached_max_amount: Home site slots full (max {})
+    home_site_exists: Home site named "{}" already exists
+    added_home_site: Home site §b§l{}§r added successfully (slots used §e{}§7/§6{}§r)
+    home_site_not_exists: Home site named "{}" not exists
+    home_site_removed: Home site §b§l{}§r removed (slots used §e{}§7/§6{}§r)
+
+  back:
+    expire_warn:
+      text: |
+        You've not teleported back for a long time, it's not suggested to do that
+        Click here to ignore the warning and teleport back
+      hover: Click here to teleport back
 
   config:
     save_with_default_fmt: Validation during config file saving failed, saved without original format
