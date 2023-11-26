@@ -1,3 +1,4 @@
+import time
 from typing import Optional
 
 from mcdreforged.api.command import *
@@ -46,12 +47,19 @@ def get_current_requester(target: str):
 
 
 # !!tpa
+@named_thread
 def accept_teleport_request(source: PlayerCommandSource):
     requester: Optional[str] = get_current_requester(source.player)
     if requester is None:
         return source.reply(rtr('tpa.request_not_found').set_color(RColor.red))
     if not PlayerOnlineList.get_instance().is_online(requester):
         return source.reply(rtr('teleport.not_online', RText(requester).set_color(RColor.yellow)))
+    if config.teleport_delay >= 1:
+        psi.tell(requester, rtr('tpa.countdown', str(config.teleport_delay)))
+        for count in range(1, config.teleport_delay):
+            time.sleep(1)
+            psi.tell(requester, rtr('tpa.countdown', str(config.teleport_delay - count)))
+        time.sleep(1)
     teleport_to_player(requester, source.player)
 
 
@@ -61,7 +69,7 @@ def decline_teleport_request(source: PlayerCommandSource):
     if requester is None:
         return source.reply(rtr('tpa.request_not_found').set_color(RColor.red))
     source.reply(rtr("tpa.request_declined", RText(requester, RColor.yellow)))
-    psi.tell(requester, rtr('tpa.request_declined', RText(source.player, RColor.yellow)))
+    psi.tell(requester, rtr('tpa.request_declined_requester', RText(source.player, RColor.yellow)))
 
 
 # !!tpa <player>

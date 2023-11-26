@@ -56,7 +56,7 @@ class Configuration(Serializable):
     command_prefix: CommandPrefix = CommandPrefix.get_default()
     permission_requirements: PermissionRequirements = PermissionRequirements.get_default()
 
-    teleport_delay: Union[int, float] = 5
+    teleport_delay: int = 5
     request_expire_time: Union[int, float] = 60.0
     max_home_count: int = 10
     undo_history_expire_time: int = 24  # hrs

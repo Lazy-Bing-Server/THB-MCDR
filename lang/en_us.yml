@@ -45,6 +45,7 @@ lazybing_thb:
       decline_hover: Click here to decline
       accept_comp: "[§a§l§nAccept§r]"
       decline_comp: "[§c§l§nDecline§r]"
+    countdown: "§e§l{}§r seconds to teleport..."
 
   home:
     list_home_title: "You have §e§l{count}§r home sites (max §6§l{max_}§r):"

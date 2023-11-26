@@ -6,10 +6,15 @@ from lazybing_thb.core import register_command
 from lazybing_thb.storage.impl.request import TeleportRequest
 from lazybing_thb.storage.impl.history import TeleportHistory
 from lazybing_thb.storage.impl.home import PlayerHomeStorage
+from lazybing_thb.timer import RequestTimer
 from lazybing_thb.player_list import PlayerOnlineList
 
 
 PlayerOnlineList.get_instance().register_event_listeners()
+
+
+def on_unload(server: PluginServerInterface):
+    RequestTimer.remove_all()
 
 
 def on_load(server: PluginServerInterface, prev_module):

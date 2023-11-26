@@ -10,7 +10,7 @@ from mcdreforged.api.rtext import *
 from lazybing_thb.utils import named_thread
 from lazybing_thb.storage.config import config
 from lazybing_thb.storage.impl.request import TeleportRequest
-from lazybing_thb.utils import psi, rtr
+from lazybing_thb.utils import psi, rtr, logger
 
 
 class RequestTimer:
@@ -68,8 +68,10 @@ class RequestTimer:
             @named_thread(f"Request_{self.target}_{self.uuid_prefix}")
             def daemon():
                 time.sleep(config.request_expire_time)
+                logger.debug('Timer stopped')
                 with self.__lock:
                     if self.is_valid():
+                        logger.debug('Request is valid, removing...')
                         requester = self.get_requester()
                         target = self.target
                         psi.tell(target, rtr("tpa.request_expired_target", requester))
@@ -91,3 +93,8 @@ class RequestTimer:
         if target in cls.__running_timer:
             return cls.__running_timer[target]
         return cls(target)
+
+    @classmethod
+    def remove_all(cls):
+        for item in cls.__running_timer.values():
+            item.remove()
