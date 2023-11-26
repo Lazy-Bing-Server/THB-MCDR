@@ -11,13 +11,14 @@ from lazybing_thb.storage.impl.home import PlayerHomeStorage
 from lazybing_thb.teleport import teleport_to_player, teleport_to_location
 from lazybing_thb.timer import RequestTimer
 from lazybing_thb.utils import rtr, htr, psi, named_thread
+from lazybing_thb.player_list import PlayerOnlineList
 
 
 def show_help(source: CommandSource):
     meta = psi.get_self_metadata()
     source.reply(
         htr(
-            'help.detailed',
+            'help.detailed.text',
             prefixes=config.prefix,
             home_prefix=config.command_prefix.home_[0],
             tpa_prefix=config.command_prefix.tpa_[0],
@@ -49,6 +50,8 @@ def accept_teleport_request(source: PlayerCommandSource):
     requester: Optional[str] = get_current_requester(source.player)
     if requester is None:
         return source.reply(rtr('tpa.request_not_found').set_color(RColor.red))
+    if not PlayerOnlineList.get_instance().is_online(requester):
+        return source.reply(rtr('teleport.not_online', RText(requester).set_color(RColor.yellow)))
     teleport_to_player(requester, source.player)
 
 
@@ -58,13 +61,18 @@ def decline_teleport_request(source: PlayerCommandSource):
     if requester is None:
         return source.reply(rtr('tpa.request_not_found').set_color(RColor.red))
     source.reply(rtr("tpa.request_declined", RText(requester, RColor.yellow)))
+    psi.tell(requester, rtr('tpa.request_declined', RText(source.player, RColor.yellow)))
 
 
 # !!tpa <player>
 def request_teleport(source: PlayerCommandSource, target: str):
+    if source.player == target:
+        return source.reply(rtr('tpa.urself').set_color(RColor.red))
+    player_component = RText(target, RColor.yellow)
+    if not PlayerOnlineList.get_instance().is_online(target):
+        return source.reply(rtr('teleport.not_online', player_component).set_color(RColor.red))
     requester: str = source.player
     timer = RequestTimer.get_timer(target)
-    player_component = RText(target, RColor.yellow)
     with timer.lock():
         if timer.is_valid():
             return source.reply(
@@ -72,6 +80,18 @@ def request_teleport(source: PlayerCommandSource, target: str):
             )
         timer.get_request().set_requester(requester)
         timer.start()
+
+        def _tr(key: str, *args, **kwargs):
+            return rtr(f"tpa.send_to_target.{key}", *args, **kwargs)
+        psi.tell(
+            target,
+            _tr(
+                'text',
+                player=player_component,
+                accept_comp=_tr('accept_comp').c(RAction.run_command, config.command_prefix.tpa_[0]).h(_tr('accept_hover')),
+                decline_comp=_tr('decline_comp').c(RAction.run_command, config.command_prefix.tpc_[0]).h(_tr('decline_hover'))
+            )
+        )
         source.reply(rtr('tpa.request_create', player_component))
 
 
@@ -82,12 +102,13 @@ def list_home(source: PlayerCommandSource):
         rtr('home.list_home_title', count=len(home_list), max_=config.max_home_count)
     ]
     num = 1
+    is_dark = False
     for name, home_site in home_list.items():
         component_list.append(
             RTextList(
                 f'[§7{num}§r] ',
                 RText(
-                    name, RColor.aqua, [RStyle.bold, RStyle.underlined]
+                    name, RColor.dark_aqua if is_dark else RColor.aqua, [RStyle.bold]
                 ).h(
                     rtr('home.list_home_site.hover', name)
                 ).c(
@@ -96,6 +117,7 @@ def list_home(source: PlayerCommandSource):
             )
         )
         num += 1
+        is_dark = not is_dark
     source.reply(RTextBase.join('\n', component_list))
 
 

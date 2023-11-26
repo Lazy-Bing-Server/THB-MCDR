@@ -10,8 +10,7 @@ class TeleportRequest(AbstractPlayerStorage):
     def get_folder_name(cls):
         return "tpa"
 
-    @property
-    def file_path(self):
+    def get_file_path(self):
         return os.path.join(self.get_folder_path(), f"{self.player}.tpa")
 
     def set_requester(self, requester: str):
@@ -27,5 +26,6 @@ class TeleportRequest(AbstractPlayerStorage):
 
     @classmethod
     def remove_all_files(cls):
-        shutil.rmtree(cls.get_folder_path())
+        if os.path.exists(cls.get_folder_path()):
+            shutil.rmtree(cls.get_folder_path())
         cls.resolve_dir()

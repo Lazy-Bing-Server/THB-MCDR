@@ -72,17 +72,16 @@ class RequestTimer:
                     if self.is_valid():
                         requester = self.get_requester()
                         target = self.target
-                        psi.tell(target, rtr("tpa.teleport_expired_target", requester))
+                        psi.tell(target, rtr("tpa.request_expired_target", requester))
                         psi.tell(
                             requester,
-                            rtr("tpa.teleport_expired_requester.text", target).h(
-                                rtr('tpa.teleport_expired_requester.hover', target)
+                            rtr("tpa.request_expired_requester.text", target).h(
+                                rtr('tpa.request_expired_requester.hover', target)
                             ).c(
                                 RAction.run_command, f"{config.command_prefix.tpa_[0]} {target}"
                             )
                         )
                         self.remove()
-                        self.get_request().remove_file()
 
             self.__running_timer[self.target] = self
             return daemon()

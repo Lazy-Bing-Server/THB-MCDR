@@ -103,7 +103,7 @@ def htr(translation_key: str, *args, prefixes: Optional[List[str]] = None, **kwa
             if result is not None:
                 command = result.group() + ' '
                 processed.append(RText(line).c(RAction.suggest_command, command).h(
-                    rtr(f'hover.suggest', command)))
+                    rtr(f'help.detailed.hover', command)))
             else:
                 processed.append(line)
         return RTextBase.join('\n', processed)
@@ -112,7 +112,7 @@ def htr(translation_key: str, *args, prefixes: Optional[List[str]] = None, **kwa
 
 
 def get_thread_prefix() -> str:
-    return to_camel_case(psi.get_self_metadata().name, divider='_') + '_'
+    return to_camel_case(psi.get_self_metadata().name, divider=' ') + '_'
 
 
 def rtr(translation_key: str, *args, with_prefix=True, **kwargs) -> RTextMCDRTranslation:
@@ -129,9 +129,8 @@ def named_thread(arg: Optional[Union[str, Callable]] = None) -> Callable:
             def try_func():
                 try:
                     return func(*args, **kwargs)
-                finally:
-                    if sys.exc_info()[0] is not None:
-                        psi.logger.exception('Error running thread {}'.format(threading.current_thread().name))
+                except Exception as e:
+                    psi.logger.exception('Error running thread {}'.format(threading.current_thread().name), exc_info=e)
 
             prefix = get_thread_prefix()
             thread = FunctionThread(target=try_func, args=[], kwargs={}, name=prefix + thread_name)
@@ -193,6 +192,8 @@ def to_camel_case(string: str, divider: str = ' ', upper: bool = True) -> str:
 
 
 def capitalize(string: str) -> str:
+    if len(string) == 0:
+        return string
     char_list = list(string)
     char_list[0] = char_list[0].upper()
     return ''.join(char_list)

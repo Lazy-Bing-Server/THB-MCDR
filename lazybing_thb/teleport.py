@@ -1,9 +1,11 @@
+import json
+
 from minecraft_data_api import get_player_dimension
 from typing import Callable
 from mcdreforged.api.rtext import *
 
 from lazybing_thb.utils import named_thread, psi, logger, rtr
-from lazybing_thb.location import Location
+from lazybing_thb.location import Location, dim_convert
 from lazybing_thb.storage.config import config
 from lazybing_thb.storage.impl.history import TeleportHistory
 
@@ -12,6 +14,7 @@ from lazybing_thb.storage.impl.history import TeleportHistory
 def _execute_teleport(requester: str, func: Callable, *args, record_history: bool = True, **kwargs):
     if record_history:
         requester_location = Location.get_location(requester)
+        logger.debug(f'Requester_location: {requester_location}')
         TeleportHistory.get_instance(requester).set_location(requester_location)
 
     func(*args, **kwargs)
@@ -21,7 +24,7 @@ def _execute_teleport(requester: str, func: Callable, *args, record_history: boo
         rtr(
             'teleport.after_teleport.text',
             undo_command=RText(
-                config.command_prefix.back_,
+                config.command_prefix.back_[0],
                 RColor.gray
             ).h(
                 rtr('teleport.after_teleport.hover')
@@ -43,7 +46,8 @@ def teleport_to_location(requester: str, loc: Location, record_history: bool = T
 
 def teleport_to_player(requester: str, target: str, record_history: bool = True):
     def __execute():
-        target_dim = get_player_dimension(target, timeout=config.mda_timeout)
+        dim_id = get_player_dimension(target, timeout=config.mda_timeout)
+        target_dim = dim_convert.get(dim_id, dim_id)
         psi.execute(f'execute in {target_dim} as {requester} run tp {target}')
         logger.info(f"Teleported {requester} to {target}")
 

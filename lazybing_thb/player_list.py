@@ -74,6 +74,7 @@ class PlayerOnlineList:
                 self.add(*player_list)
                 self.__limit = limit
 
+    @named_thread
     def on_server_startup(self):
         with self.lock():
             if psi.is_server_startup():

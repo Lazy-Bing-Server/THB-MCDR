@@ -7,7 +7,7 @@ from threading import RLock
 
 from typing_extensions import Self
 from typing import Union, Type
-from lazybing_thb.utils import psi
+from lazybing_thb.utils import psi, logger
 
 
 class AbstractPlayerStorage(abc.ABC):
@@ -22,10 +22,16 @@ class AbstractPlayerStorage(abc.ABC):
         return os.path.join(psi.get_data_folder(), cls.get_folder_name())
 
     @classmethod
+    def __get_instances(cls):
+        if cls.__name__ not in cls.__instances.keys():
+            cls.__instances[cls.__name__] = {}
+        return cls.__instances[cls.__name__]
+
+    @classmethod
     def get_instance(cls: Type[Self], player: str) -> Self:
         if player not in cls.__instances.keys():
-            cls.__instances[player] = cls(player)
-        return cls.__instances[player]
+            cls.__get_instances()[player] = cls(player)
+        return cls.__get_instances()[player]
 
     @classmethod
     def resolve_dir(cls):
@@ -42,8 +48,7 @@ class AbstractPlayerStorage(abc.ABC):
     def player(self):
         return self.__player
 
-    @property
-    def file_path(self):
+    def get_file_path(self):
         raise NotImplementedError
 
     @contextlib.contextmanager
@@ -57,20 +62,20 @@ class AbstractPlayerStorage(abc.ABC):
 
     def exists(self):
         with self.lock():
-            return os.path.isfile(self.file_path)
+            return os.path.isfile(self.get_file_path())
 
     def remove_file(self):
         with self.lock():
-            os.remove(self.file_path)
+            os.remove(self.get_file_path())
 
     def ensure_file(self):
         with self.lock():
-            if os.path.isdir(self.file_path):
-                shutil.rmtree(self.file_path)
+            if os.path.isdir(self.get_file_path()):
+                shutil.rmtree(self.get_file_path())
 
     @contextlib.contextmanager
     def open(self, mode: str = 'r', encoding: str = 'utf8'):
         with self.lock():
             self.ensure_file()
-            with open(self.file_path, mode=mode, encoding=encoding) as f:
+            with open(self.get_file_path(), mode=mode, encoding=encoding) as f:
                 yield f

@@ -1,19 +1,21 @@
 lazybing_thb:
   help:
     mcdr: Show TPA & Home & Back Plugin help message
-    detailed: |
-      §7-----§r {name} v{ver} §7-----§r
-      TPA & Home & Back Plugin for MCDReforged
-      §7{home_prefix}§r Show this help message
-      §7{home_prefix} reload§r Reload this plugin
-      §7{home_prefix} list§r List all your home site
-      §7{home_prefix} §e<name>§r Teleport to a home site
-      §7{home_prefix} add §e<name>§r Add a home site
-      §7{home_prefix} rm §e<name>§r Remove a home site
-      §7{tpa_prefix}§r Accept a teleport request
-      §7{tpa_prefix} §6<player>§r Request teleport to §6<player>§r
-      §7{tpc_prefix}§r Decline a teleport request
-      §7{back_prefix}§r Undo a recent teleport action
+    detailed:
+      text: |
+        §7-----§r {name} v{ver} §7-----§r
+        TPA & Home & Back Plugin for MCDReforged
+        §7{home_prefix}§r Show this help message
+        §7{home_prefix} reload§r Reload this plugin
+        §7{home_prefix} list§r List all your home site
+        §7{home_prefix} §e<name>§r Teleport to a home site
+        §7{home_prefix} add §e<name>§r Add a home site
+        §7{home_prefix} rm §e<name>§r Remove a home site
+        §7{tpa_prefix}§r Accept a teleport request
+        §7{tpa_prefix} §6<player>§r Request teleport to §6<player>§r
+        §7{tpc_prefix}§r Decline a teleport request
+        §7{back_prefix}§r Undo a recent teleport action
+      hover: Click to suggest {}
 
   msg:
     reloaded: Plugin reloaded
@@ -22,9 +24,10 @@ lazybing_thb:
     after_teleport:
       text: Teleport finished. Use {undo_command} to undo teleport
       hover: Click here to undo teleport
+    not_online: Player {} is not online
 
   tpa:
-    request_expired_target: Teleport request expired from §e{}§r
+    request_expired_target: Teleport request from §e{}§r expired
     request_expired_requester:
       text: Teleport request expired to §e{}§r, click here to request once more
       hover: Click here to request teleport to §e{}§r once more
@@ -32,9 +35,19 @@ lazybing_thb:
     request_already_exists: A request for {} is available now, please request again soon
     request_create: Request created, please wait {} to respond
     request_declined: Declined teleport request from {}
+    request_declined_requester: Request was declined by {}
+    urself: Can't request to teleport to yourself
+    send_to_target:
+      text: |
+        §e{player}§r request teleport to your side
+        {accept_comp} {decline_comp}
+      accept_hover: Click here to accept
+      decline_hover: Click here to decline
+      accept_comp: "[§a§l§nAccept§r]"
+      decline_comp: "[§c§l§nDecline§r]"
 
   home:
-    list_home_title: "You have §3{count}§l home sites§r (max §6§l{max_}§r):"
+    list_home_title: "You have §e§l{count}§r home sites (max §6§l{max_}§r):"
     list_home_site:
       hover: Click here to teleport to home site §b{}§r
     reached_max_amount: Home site slots full (max {})

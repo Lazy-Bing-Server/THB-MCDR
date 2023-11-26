@@ -20,8 +20,7 @@ class PlayerHomeStorage(AbstractPlayerStorage):
     def get_folder_name(cls):
         return "home"
 
-    @property
-    def file_path(self):
+    def get_file_path(self):
         return os.path.join(self.get_folder_path(), f"{self.player}.json")
 
     def save(self, data: Optional[expected_type] = None):
