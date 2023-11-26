@@ -33,5 +33,5 @@ jobs:
 
     - uses: actions/upload-artifact@v3
       with:
-        name: QuickBackupM distribution for ${{ github.sha }}
+        name: Lazybing-THB artifact for ${{ github.sha }}
         path: package/
