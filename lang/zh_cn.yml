@@ -45,6 +45,7 @@ lazybing_thb:
       decline_hover: 点此§c§l§n拒绝§r
       accept_comp: "[§a§l§n接受§r]"
       decline_comp: "[§c§l§n拒绝§r]"
+    countdown: "§e§l{}§r 秒后执行传送..."
 
   home:
     list_home_title: "已设置 §e§l{count}§r 个 Home 点 (最多 §6§l{max_}§r 个):"
