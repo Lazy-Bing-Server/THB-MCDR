@@ -22,16 +22,12 @@ def _execute_teleport(requester: str, func: Callable, *args, record_history: boo
     psi.tell(
         requester,
         rtr(
-            'teleport.after_teleport.text',
-            undo_command=RText(
-                config.command_prefix.back_[0],
-                RColor.gray
-            ).h(
-                rtr('teleport.after_teleport.hover')
-            ).c(
-                RAction.run_command,
-                config.command_prefix.back_[0]
-            )
+            'teleport.after_teleport.text'
+        ).h(
+            rtr('teleport.after_teleport.hover')
+        ).c(
+            RAction.run_command,
+            config.command_prefix.back_[0]
         )
     )
 

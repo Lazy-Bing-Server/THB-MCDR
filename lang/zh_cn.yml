@@ -1,0 +1,69 @@
+lazybing_thb:
+  help:
+    mcdr: 显示 TPA/Home/Back 插件的帮助信息
+    detailed:
+      text: |
+        §7-----§r {name} v{ver} §7-----§r
+        适用于 MCDReforged 的 TPA/Home/Back 
+        §7{home_prefix}§r 显示该帮助信息
+        §7{home_prefix} reload§r 重载插件
+        §7{home_prefix} list§r 显示所有 home 点
+        §7{home_prefix} §e<名称>§r 传送到一个 home 点
+        §7{home_prefix} add §e<名称>§r 添加一个 home 点
+        §7{home_prefix} rm §e<名称>§r 移除一个 home 点
+        §7{tpa_prefix}§r 接受一个传送请求
+        §7{tpa_prefix} §6<玩家>§r 请求传送到§6<玩家>§r身边
+        §7{tpc_prefix}§r 拒绝一个传送请求
+        §7{back_prefix}§r 撤销最近的一次传送
+      hover: 点击以补全指令 {}
+
+  msg:
+    reloaded: 插件已重载
+
+  teleport:
+    after_teleport:
+      text: 传送完成, §7点此§r以撤销本次传送
+      hover: 点此以撤销该次传送
+    not_online: 玩家 {} 不在线
+
+  tpa:
+    request_expired_target: 来自 §e{}§r 的传送请求已超时
+    request_expired_requester:
+      text: 传送至 §e{}§r 的请求已超时, §7点此§6再次请求
+      hover: 点此再次请求传送至 §e{}§r
+    request_not_found: 找不到有效的传送请求
+    request_already_exists: 玩家 {} 有正在处理的请求, 请稍后再试
+    request_create: 请求已创建, 请等候 {} 响应
+    request_declined: 拒绝了 {} 的传送请求
+    request_declined_requester: 玩家 {} 拒绝了传送请求
+    urself: 不能请求传送到自己这里
+    send_to_target:
+      text: |
+        §e{player}§r 请求传送到你身边
+        {accept_comp} {decline_comp}
+      accept_hover: 点此§a§l§n接受§r
+      decline_hover: 点此§c§l§n拒绝§r
+      accept_comp: "[§a§l§n接受§r]"
+      decline_comp: "[§c§l§n拒绝§r]"
+
+  home:
+    list_home_title: "已设置 §e§l{count}§r 个 Home 点 (最多 §6§l{max_}§r 个):"
+    list_home_site:
+      hover: 点此传送到 Home 点 §b{}§r
+    reached_max_amount: Home 点槽位已满 (最多 {} 个)
+    home_site_exists: Home 点 "{}" 已经存在
+    added_home_site: 成功添加了 Home 点 §b§l{}§r (已使用槽位 §e{}§7/§6{}§r)
+    home_site_not_exists: Home 点 "{}" 不存在
+    home_site_removed: 成功移除了 Home 点 §b§l{}§r (已使用槽位 §e{}§7/§6{}§r)
+
+  back:
+    expire_warn:
+      text: |
+        距上次传送回去已经过了很久了, 并不建议这么做
+        如确需撤销传送, 请点击这里
+      hover: 点此确定撤销传送
+
+  config:
+    save_with_default_fmt: 配置文件保存过程中验证错误, 将不带有初始格式保存
+    format_failure: 初始配置文件格式中存在问题, 请联系插件维护者
+    retry_saving: 因尝试保留当前格式保存配置文件失败, 故正尝试以初始配置文件格式保存

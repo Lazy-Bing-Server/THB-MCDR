@@ -1,11 +1,28 @@
 # Command Prefix for plugin commands
 # 插件指令的前缀
-command_prefix: "!!template"
+command_prefix:
 
 # Permission level requirements for each command
 # 各指令的权限需求
 permission_requirements:
-  reload: 3
+
+# Teleport delay when request is accepted
+# 传送请求接受时的传送延迟
+teleport_delay:
+
+# Teleport request expire time in seconds
+# 传送请求过期时间 (单位: 秒)
+request_expire_time:
+
+# Home sites max slots amount
+# Home 点槽位数量限制
+max_home_count:
+
+# History will be marked as out-dated after the time configured (in hours)
+# Player will be warned when undo teleport on expired and requires execute that twice
+# 传送记录会在配置的时间之后被记为过期 (单位: 小时)
+# 玩家在记录过期时执行撤销传送会收到警告，并且需要执行两次指令才能执行撤销
+undo_history_expire_time:
 
 # Options below were missing and set by MCDR with the default value
 # Remember to check and update them as soon as possible

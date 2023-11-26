@@ -59,7 +59,7 @@ class Configuration(Serializable):
     teleport_delay: Union[int, float] = 5
     request_expire_time: Union[int, float] = 60.0
     max_home_count: int = 10
-    undo_history_expire_time = 24  # hrs
+    undo_history_expire_time: int = 24  # hrs
 
     minecraft_data_api_timeout: int
     debug: bool
