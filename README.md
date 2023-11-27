@@ -23,10 +23,10 @@ This template is licensed under MIT license.
 ##### !!home: 在你的世界中标记一处地点，可随时返回已标记地点
 
 ```
-!!home <门牌号>				回到指定的家
-!!home add <门牌号>			添加玩家当前位置作为家	
-!!home remove <门牌号>			删除指定家
-!! home list				列出你所有的家
+!!home <门牌号>			          	回到指定的家
+!!home add <门牌号>			        添加玩家当前位置作为家	
+!!home remove <门牌号>		        	删除指定家
+!!home list			          	列出你所有的家
 ```
 
 
@@ -53,12 +53,12 @@ This template is licensed under MIT license.
 ```
 !!home <home>				Return to the specified home
 !!home add <home>			Add the player's current location as a home
-!!home remove <home>		Delete the specified home
-!!home list					List all currently owned homes
+!!home remove <home>                    Delete the specified home
+!!home list				List all currently owned homes
 ```
 
 ##### !!back: Undo the last teleport and return to the position before the last teleport (only applicable to teleports made by this plugin).
 
 ```
-!!back 						Return to the position before the last teleport
+!!back 		            	  	Return to the position before the last teleport
 ```
