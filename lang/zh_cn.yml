@@ -4,17 +4,17 @@ lazybing_thb:
     detailed:
       text: |
         §7-----§r {name} v{ver} §7-----§r
-        适用于 MCDReforged 的 TPA/Home/Back 
+        适用于 MCDReforged 的 TPA/Home/Back 插件
         §7{home_prefix}§r 显示该帮助信息
         §7{home_prefix} reload§r 重载插件
-        §7{home_prefix} list§r 显示所有 home 点
-        §7{home_prefix} §e<名称>§r 传送到一个 home 点
-        §7{home_prefix} add §e<名称>§r 添加一个 home 点
-        §7{home_prefix} rm §e<名称>§r 移除一个 home 点
-        §7{tpa_prefix}§r 接受一个传送请求
-        §7{tpa_prefix} §6<玩家>§r 请求传送到§6<玩家>§r身边
-        §7{tpc_prefix}§r 拒绝一个传送请求
-        §7{back_prefix}§r 撤销最近的一次传送
+        §7{home_prefix} list§r 显示你所有的家
+        §7{home_prefix} §e<门牌号>§r 传送到指定的家
+        §7{home_prefix} add §e<门牌号>§r 设置当前位置为作为家
+        §7{home_prefix} rm §e<门牌号>§r 移除一个家
+        §7{tpa_prefix}§r 同意传送请求
+        §7{tpa_prefix} §6<玩家>§r 对§6<玩家>§r发出传送请求
+        §7{tpc_prefix}§r 拒绝传送请求
+        §7{back_prefix}§r 撤销上次传送(本插件限定)
       hover: 点击以补全指令 {}
 
   msg:
@@ -22,47 +22,47 @@ lazybing_thb:
 
   teleport:
     after_teleport:
-      text: 传送完成, §7点此§r以撤销本次传送
-      hover: 点此以撤销该次传送
+      text: 传送完成, §7点此§r撤销本次传送(返回传送前的位置)
+      hover: 点此以撤销本次传送
     not_online: 玩家 {} 不在线
 
   tpa:
     request_expired_target: 来自 §e{}§r 的传送请求已超时
     request_expired_requester:
-      text: 传送至 §e{}§r 的请求已超时, §7点此§6再次请求
+      text: 传送至 §e{}§r 的请求已超时, §7点此§6再次发起请求
       hover: 点此再次请求传送至 §e{}§r
-    request_not_found: 找不到有效的传送请求
+    request_not_found: 你没有待处理的传送请求
     request_already_exists: 玩家 {} 有正在处理的请求, 请稍后再试
-    request_create: 请求已创建, 请等候 {} 响应
+    request_create: 已发送传送请求至 {} 
     request_declined: 拒绝了 {} 的传送请求
-    request_declined_requester: 玩家 {} 拒绝了传送请求
-    urself: 不能请求传送到自己这里
+    request_declined_requester: 玩家 {} 拒绝了你的请求
+    urself: 禁止面对面快传
     send_to_target:
       text: |
         §e{player}§r 请求传送到你身边
         {accept_comp} {decline_comp}
-      accept_hover: 点此§a§l§n接受§r
-      decline_hover: 点此§c§l§n拒绝§r
+      accept_hover: 点此§a§l§n接受请求§r
+      decline_hover: 点此§c§l§n拒绝请求§r
       accept_comp: "[§a§l§n接受§r]"
       decline_comp: "[§c§l§n拒绝§r]"
-    countdown: "§e§l{}§r 秒后执行传送..."
+    countdown: "你将在 §e§l{}§r 秒后传送..."
 
   home:
-    list_home_title: "已设置 §e§l{count}§r 个 Home 点 (最多 §6§l{max_}§r 个):"
+    list_home_title: "已记录 §e§l{count}§r 个家 (最多 §6§l{max_}§r 个):"
     list_home_site:
-      hover: 点此传送到 Home 点 §b{}§r
-    reached_max_amount: Home 点槽位已满 (最多 {} 个)
-    home_site_exists: Home 点 "{}" 已经存在
-    added_home_site: 成功添加了 Home 点 §b§l{}§r (已使用槽位 §e{}§7/§6{}§r)
-    home_site_not_exists: Home 点 "{}" 不存在
-    home_site_removed: 成功移除了 Home 点 §b§l{}§r (已使用槽位 §e{}§7/§6{}§r)
+      hover: 点此传送到你这个家 §b{}§r
+    reached_max_amount: 家的数量已达上限 (最多 {} 个)
+    home_site_exists: 家 "{}" 已经存在，不准重复
+    added_home_site: 成功记录了新家 §b§l{}§r (已使用槽位 §e{}§7/§6{}§r)
+    home_site_not_exists: 你没有任何一个家叫这个 "{}"
+    home_site_removed: 成功移除了家 §b§l{}§r (已使用槽位 §e{}§7/§6{}§r)
 
   back:
     expire_warn:
       text: |
-        距上次传送回去已经过了很久了, 并不建议这么做
-        如确需撤销传送, 请点击这里
-      hover: 点此确定撤销传送
+        旅行者，距离你上次传送已经过了好久好久啦, 身后的区域可能有危险喔！
+        如果你真的无论如何都一定要坚持返回上次传送前的地方, 请点击这里
+      hover: 点这里以确认你无论如何都坚持要返回很久前的上次传送前的位置
 
   config:
     save_with_default_fmt: 配置文件保存过程中验证错误, 将不带有初始格式保存
