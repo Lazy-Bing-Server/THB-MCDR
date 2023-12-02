@@ -1,11 +1,13 @@
-Sprout
+THB
 -----
 
-A template for MCDReforged (>=2.x) plugin, included in Project Blooming Blossom
+A magic plugin for MCDReforged, help you meet your friends in Minecraft immediately (xD)
 
-Try `python -m mcdreforged pack` to generate the packed plugin!
+This plugin also allows you to teleport back home, and undo recent teleport actions with this plugin
 
-This template is licensed under MIT license.
+能帮你快速和好友在 MC 里团聚的神奇（大嘘） MCDR 插件（笑
+
+这插件还能让你快速传回家，又或者是撤销本插件的上次传送
 
 
 

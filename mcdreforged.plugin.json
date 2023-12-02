@@ -1,11 +1,11 @@
 {
     "id": "lazybing_thb",
-    "version": "0.1.0-SNAPSHOT",
+    "version": "1.0.0",
     "name": "LazyBing THB",
     "description": "TPA, Home & Back for MCDReforged",
     "author": [
         "Ra1ny_Yuki",
-        "xinbing"
+        "Sinbing"
     ],
     "link": "https://github.com/Lazy-Bing-Server/THB-MCDR",
     "dependencies": {
