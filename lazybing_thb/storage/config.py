@@ -1,13 +1,12 @@
 import os
 import shutil
 import time
-from typing import Union, List, Optional, Dict
+from typing import Union, List, Optional
 
 from mcdreforged.api.utils import Serializable
 from ruamel import yaml
 
 from lazybing_thb.utils import psi, logger, rtr
-
 
 PrefixType = Union[str, List[str]]
 

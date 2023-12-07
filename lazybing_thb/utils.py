@@ -155,12 +155,15 @@ def ntr(
         translation_key: str,
         *args,
         language: Optional[str] = None,
+        _mcdr_tr_language: Optional[str] = None,
         allow_failure: bool = True,
         **kwargs
 ) -> MessageText:
+    if language is not None and _mcdr_tr_language is None:
+        _mcdr_tr_language = language
     try:
         return psi.tr(
-            translation_key, *args, language=language, allow_failure=False, **kwargs
+            translation_key, *args, language=language, _mcdr_tr_language=_mcdr_tr_language, allow_failure=False, **kwargs
         )
     except (KeyError, ValueError):
         fallback_language = psi.get_mcdr_language()
@@ -168,7 +171,7 @@ def ntr(
             if fallback_language == 'en_us':
                 raise KeyError(translation_key)
             return psi.tr(
-                translation_key, *args, language='en_us', allow_failure=allow_failure, **kwargs
+                translation_key, *args, _mcdr_tr_language='en_us', language='en_us', allow_failure=allow_failure, **kwargs
             )
         except (KeyError, ValueError):
             languages = []
@@ -210,10 +213,13 @@ def dtr(translation_dict: Dict[str, str], *args, **kwargs) -> RTextMCDRTranslati
     def fake_tr(
             translation_key: str,
             *inner_args,
+            _mcdr_tr_language: Optional[str] = None,
             language: Optional[str] = None,
             allow_failure: bool = True,
             **inner_kwargs
     ) -> MessageText:
+        if language is not None and _mcdr_tr_language is None:
+            _mcdr_tr_language = language
         result = translation_dict.get(language)
         fallback_language = [psi.get_mcdr_language()]
         if 'en_us' not in fallback_language and 'en_us' != language:
