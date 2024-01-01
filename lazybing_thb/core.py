@@ -161,6 +161,8 @@ def teleport_to_home(source: PlayerCommandSource, home_site_name: str):
     home = PlayerHomeStorage.get_instance(source.player)
     with home.lock():
         site_location = home.get_home(home_site_name)
+    if site_location is None:
+        return source.reply(rtr('home.home_site_not_exists', home_site_name).set_color(RColor.red))
     teleport_to_location(source.player, site_location)
 
 
