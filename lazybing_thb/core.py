@@ -54,6 +54,7 @@ def accept_teleport_request(source: PlayerCommandSource):
         return source.reply(rtr('tpa.request_not_found').set_color(RColor.red))
     if not PlayerOnlineList.get_instance().is_online(requester):
         return source.reply(rtr('teleport.not_online', RText(requester).set_color(RColor.yellow)))
+    source.reply(rtr("tpa.request_agree", RText(requester, RColor.yellow)))
     if config.teleport_delay >= 1:
         psi.tell(requester, rtr('tpa.countdown', str(config.teleport_delay)))
         for count in range(1, config.teleport_delay):
@@ -95,7 +96,7 @@ def request_teleport(source: PlayerCommandSource, target: str):
             target,
             _tr(
                 'text',
-                player=player_component,
+                player=source.player,
                 accept_comp=_tr('accept_comp').c(RAction.run_command, config.command_prefix.tpa_[0]).h(_tr('accept_hover')),
                 decline_comp=_tr('decline_comp').c(RAction.run_command, config.command_prefix.tpc_[0]).h(_tr('decline_hover'))
             )

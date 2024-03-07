@@ -34,6 +34,7 @@ lazybing_thb:
     request_not_found: No available teleport request found
     request_already_exists: A request for {} is available now, please request again soon
     request_create: Request created, please wait {} to respond
+    request_agree: Agree teleport request from {}
     request_declined: Declined teleport request from {}
     request_declined_requester: Request was declined by {}
     urself: Can't request to teleport to yourself
