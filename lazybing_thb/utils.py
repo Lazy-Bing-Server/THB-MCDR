@@ -3,10 +3,8 @@ import inspect
 import logging
 import os
 import re
-import sys
 import threading
-from typing import Optional, Dict, Callable, List
-from typing import Union
+from typing import Optional, Dict, Callable, List, Union
 
 from mcdreforged.api.decorator import FunctionThread
 from mcdreforged.api.event import MCDRPluginEvents

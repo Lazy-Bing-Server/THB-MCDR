@@ -63,6 +63,7 @@ lazybing_thb:
         You've not teleported back for a long time, it's not suggested to do that
         Click here to ignore the warning and teleport back
       hover: Click here to teleport back
+    no_history_found: No teleport history found
 
   config:
     save_with_default_fmt: Validation during config file saving failed, saved without original format

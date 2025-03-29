@@ -167,6 +167,10 @@ def teleport_to_home(source: PlayerCommandSource, home_site_name: str):
 def undo_teleport(source: PlayerCommandSource):
     history = TeleportHistory.get_instance(source.player)
     history_location = history.get_history()
+    if history_location is None:
+        source.reply(
+            rtr('back.no_history_found').set_color(RColor.red)
+        )
     if config.is_history_expired(history_location.timestamp) and not history_location.warned:
         history.set_warned()
         return source.reply(
